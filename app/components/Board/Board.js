@@ -1,47 +1,33 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useState } from "react";
+import TaskFilter from "./TaskFilter";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import BoardColumn from "./BoardColumn";
-import { useTasks } from "@/context/TaskProvider";
 
 const Board = () => {
-  const { state, dispatch } = useTasks();
-
-  const onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
-    if (!destination) return;
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    dispatch({
-      type: "MOVE_TASK",
-      payload: {
-        id: draggableId,
-        status: destination.droppableId,
-      },
-    });
-  };
+  const [filteredTasks, setFilteredTasks] = useState(null);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex">
-        {["To Do", "In Progress", "Done"].map((status) => (
-          <Droppable key={status} droppableId={status}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="w-1/3 p-4"
-              >
-                <BoardColumn status={status} />
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        ))}
-      </div>
-    </DragDropContext>
+    <>
+      <TaskFilter setFilteredTasks={setFilteredTasks} />
+      <DragDropContext>
+        <div className="flex flex-wrap lg:flex-nowrap space-x-4">
+          {["To Do", "In Progress", "Done"].map((status) => (
+            <Droppable key={status} droppableId={status}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="w-1/3 p-4 bg-gray-200 rounded-lg shadow-lg"
+                >
+                  <BoardColumn status={status} tasks={filteredTasks} />
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          ))}
+        </div>
+      </DragDropContext>
+    </>
   );
 };
 

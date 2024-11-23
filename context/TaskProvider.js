@@ -1,16 +1,19 @@
-import { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useEffect, useContext } from "react";
+import toast from "react-hot-toast";
 
 const TaskContext = createContext();
 
 const initialState = {
-  tasks: [],
+  tasks: JSON.parse(localStorage.getItem("tasks")) || [],
 };
 
 const taskReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TASK":
+      toast.success("Task added!");
       return { ...state, tasks: [...state.tasks, action.payload] };
     case "UPDATE_TASK":
+      toast.success("Task updated!");
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -18,6 +21,7 @@ const taskReducer = (state, action) => {
         ),
       };
     case "MOVE_TASK":
+      toast.success("Task moved!");
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -33,6 +37,11 @@ const taskReducer = (state, action) => {
 
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(state.tasks));
+  }, [state.tasks]);
+
   return (
     <TaskContext.Provider value={{ state, dispatch }}>
       {children}

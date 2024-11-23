@@ -14,7 +14,7 @@ const TaskCard = ({ task, index }) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className="bg-white p-4 rounded shadow mb-2 hover:bg-gray-100 cursor-pointer"
-            onDoubleClick={() => setIsEditing(true)} // Open edit modal on double-click
+            onDoubleClick={() => setIsEditing(true)}
           >
             <h3 className="font-bold">{task.title}</h3>
             <p>{task.description}</p>

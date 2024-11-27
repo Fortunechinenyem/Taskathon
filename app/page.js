@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <TaskProvider>
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto text-center p-6">
         <h1 className="text-3xl font-bold text-center mb-8">Taskathon</h1>
         <button
           onClick={openModal}

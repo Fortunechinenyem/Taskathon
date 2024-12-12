@@ -7,7 +7,6 @@ const BoardColumn = ({ status }) => {
 
   return (
     <div className="flex flex-col bg-gray-50 rounded-3xl p-4 shadow-lg">
-      {/* Column Header */}
       <h2 className="text-xl font-bold text-gray-700 mb-4 text-center uppercase tracking-wide">
         {status}
       </h2>

@@ -13,12 +13,20 @@ const TaskCard = ({ task, index }) => {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className="bg-white p-4 rounded shadow mb-2 hover:bg-gray-100 cursor-pointer"
+            className="bg-white p-4 rounded-lg shadow-md mb-3 hover:shadow-lg hover:bg-gray-50 transition duration-200 ease-in-out cursor-pointer"
             onDoubleClick={() => setIsEditing(true)}
           >
-            <h3 className="font-bold">{task.title}</h3>
-            <p>{task.description}</p>
-            <p className="text-sm text-gray-500">Deadline: {task.deadline}</p>
+            <h3 className="font-semibold text-lg text-gray-800 mb-2">
+              {task.title}
+            </h3>
+
+            <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+              {task.description || "No description provided."}
+            </p>
+
+            <p className="text-xs text-gray-500">
+              <span className="font-semibold">Deadline:</span> {task.deadline}
+            </p>
           </div>
         )}
       </Draggable>

@@ -6,11 +6,23 @@ const BoardColumn = ({ status }) => {
   const tasks = state.tasks.filter((task) => task.status === status);
 
   return (
-    <div className="bg-gray-100 rounded p-4 shadow">
-      <h2 className="font-bold text-lg">{status}</h2>
-      {tasks.map((task, index) => (
-        <TaskCard key={task.id} task={task} index={index} />
-      ))}
+    <div className="flex flex-col bg-gray-50 rounded-3xl p-4 shadow-lg">
+      {/* Column Header */}
+      <h2 className="text-xl font-bold text-gray-700 mb-4 text-center uppercase tracking-wide">
+        {status}
+      </h2>
+
+      <div className="flex flex-col gap-4">
+        {tasks.map((task, index) => (
+          <TaskCard key={task.id} task={task} index={index} />
+        ))}
+      </div>
+
+      {tasks.length === 0 && (
+        <div className="text-gray-400 text-sm text-center mt-4">
+          No tasks available
+        </div>
+      )}
     </div>
   );
 };

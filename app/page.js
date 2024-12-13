@@ -3,8 +3,9 @@ import { TaskProvider } from "@/context/TaskProvider";
 import { useState } from "react";
 import AddTaskModal from "./components/Board/AddTaskModal";
 import Board from "./components/Board/Board";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
+import TaskFilter from "./components/Board/TaskFilter";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,13 +23,13 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Image
+            {/* <Image
               src="/avatar-placeholder.png"
               alt="User Avatar"
               width={100}
               height={100}
               className="w-10 h-10 rounded-full border-2 border-white"
-            />
+            /> */}
             <p className="text-white font-medium">Welcome, John Doe</p>
           </div>
         </header>
@@ -41,6 +42,10 @@ export default function Home() {
             >
               + Add Task
             </button>
+          </div>
+          <div>
+            {" "}
+            <TaskFilter />
           </div>
 
           {isModalOpen && <AddTaskModal closeModal={closeModal} />}

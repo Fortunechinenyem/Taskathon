@@ -15,60 +15,31 @@ const Board = () => {
   ]);
 
   const handleDragEnd = (result) => {
+    if (!result.destination) return;
+
     const { source, destination } = result;
 
-    if (!destination) return;
+    const updatedTasks = [...tasks];
 
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
-      return;
-    }
+    const [movedTask] = updatedTasks.splice(source.index, 1);
 
-    setTasks((prevTasks) => {
-      const updatedTasks = [...prevTasks];
+    movedTask.status = destination.droppableId;
 
-      const [movedTask] = updatedTasks.filter(
-        (task) => task.id === result.draggableId
-      );
+    updatedTasks.splice(destination.index, 0, movedTask);
 
-      // Remove task from its current position
-      updatedTasks.splice(source.index, 1);
-
-      movedTask.status = destination.droppableId;
-
-      updatedTasks.splice(destination.index, 0, movedTask);
-
-      return updatedTasks;
-    });
+    setTasks(updatedTasks);
   };
-
-  const columns = ["To Do", "In Progress", "Done"];
 
   return (
     <div className="min-h-screen bg-gray-100 py-4">
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex flex-nowrap space-x-4 overflow-x-auto px-4">
-          {columns.map((status) => (
-            <Droppable key={status} droppableId={status}>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="w-80 min-w-[300px] p-4 bg-white rounded-lg shadow-md flex flex-col"
-                >
-                  <h2 className="text-lg font-bold text-gray-700 mb-4">
-                    {status}
-                  </h2>
-                  <BoardColumn
-                    status={status}
-                    tasks={tasks.filter((task) => task.status === status)}
-                  />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+          {["To Do", "In Progress", "Done"].map((status) => (
+            <BoardColumn
+              key={status}
+              status={status}
+              tasks={tasks.filter((task) => task.status === status)}
+            />
           ))}
         </div>
       </DragDropContext>

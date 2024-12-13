@@ -15,7 +15,7 @@ const TaskFilter = ({ setFilteredTasks }) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 text-center">
       <input
         type="text"
         value={search}
